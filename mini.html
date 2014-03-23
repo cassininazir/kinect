@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Radar</title>
+<script src='http://cdn.zigfu.com/zigjs/zig.min.js'></script>
+ 
+<script>
+ 
+    function loaded() {
+        var radardiv = document.getElementById('radar');
+ 
+        // The radar object will respond to events from the 
+        // zig object and move the dots around accordingly.
+        // It is also responsible for creating and destroying 
+        // the dots when users are added and removed.
+        // Functions onuserfound(), onuserlost(), and ondataupdate() 
+        // are called by the zig object when those things happen.
+        var radar = {
+            onuserfound: function (user) {
+                console.log('running onuserfound in radar');
+            },
+            onuserlost: function (user) {
+                console.log('running onuserlost in radar');
+            },
+            ondataupdate: function (zigdata) {
+ 
+            }
+        };  
+        // Add the radar object as a listener to the zig object, so that 
+        // the zig object will call the radar object's callback functions.
+        zig.addListener(radar);
+    }
+    document.addEventListener('DOMContentLoaded', loaded, false);
+ 
+</script>
+ 
+<style>
+    div#radar 
+    {
+        width: 400px;
+        height: 400px;
+        border: 1px solid black;
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+ 
+</head>
+<body>
+ 
+<div id='radar'></div>
+ 
+</body>
+</html>

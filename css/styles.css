@@ -1,0 +1,23 @@
+body { width: 960px;}
+#xslider, #yslider { 
+	width: 500px;
+}
+
+#radar {
+    width: 400px;
+    height: 400px;
+    border: 1px solid rgba(168,219,168, 1);
+    overflow: hidden;
+    float: left;
+}
+#blur {
+	width: 400px;
+	float: right;
+}
+div.user {
+	position: relative;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	background: #3B8686;
+}
