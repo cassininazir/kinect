@@ -3,26 +3,29 @@
 
 <head>
   <title>User Radar</title>
-  <script src="js/jquery-2.1.0.min.js"></script>
+  <!-- <script src="js/jquery-2.1.0.min.js"></script> -->
+  <script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
   <script src='js/zig.min.js'></script>
   <script>
-    $(function () {
+      $(function () {
         // get thoughts via json file
         $.ajax({
           url: 'data.json',
           dataType: 'json',
           type: 'GET',
-          success: function (json) {
+          success: function(json) {
             for (var i = 0; i < json.length; i++) {
               console.log(json[i].thought);
+              var thought = json[i].thought
             };
-            //var wrapper = "<li class='single-feed'>";
-            //$(".feed-container").append($(wrapper).append(thought));
+            var wrapper = "<li class='single-feed'>";
+            $("#blur").append($(wrapper).append(thought));
           },
           error: function () {
             alert("I am sorry, But I can't fetch that feed");
           }
         });
+      });
         // kinect
         function loaded() {
           var u = 0;
@@ -33,12 +36,12 @@
               userdiv.className = 'user';
               user.radarelement = userdiv; // add the radarelement property to the user object
               radardiv.appendChild(user.radarelement);
-              u++; //increment each time new user is found
+             u++; //increment each time new user is found
               $("#radar div").attr("id",function() {
                 return "u" + u;
               });
               // lets display how many users we have
-              $("#total span").append(u);
+              $("#total span").html(u);
             },
             onuserlost: function (user) {
               radardiv.removeChild(user.radarelement);
@@ -64,7 +67,7 @@
         }
         document.addEventListener('DOMContentLoaded', loaded, false);
         // end document.ready function
-      }
+  //    });
   </script>
   <link rel="stylesheet" href="css/styles.css">
 
@@ -73,7 +76,7 @@
 <body>
   <div id='radar'></div>
   <div id="blur">
-    <img src="img/blur.jpg" style="">
+    <!--<img src="img/blur.jpg" style="">-->
   </div>
   <footer>
     <p id="total"><span>0</span> total users</p>
