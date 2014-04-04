@@ -1,0 +1,11 @@
+// JSON test file
+[
+    {
+        "thought": "Hello",
+        "timestamp" : "time"
+    },
+    {
+        "thought": "Hello Jay",
+        "timestamp" : "time"
+    }
+]

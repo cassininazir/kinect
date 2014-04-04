@@ -1,38 +1,83 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Zigging It Up</title>
-<script src="js/zig.min.js"></script>
-<script src="js/jquery-2.1.0.min.js"></script>
-<script src="js/actions.js"></script>
-<script src="js/jquery-ui-1.10.4.custom.min.js"></script>
-<link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
-<script>
-  $(function() {
-    $("#slider" ).slider({
-    	max: 100,
-    	value: 0,
-    	slide: function(event, ui) {
-    		$("#x").text(ui.value); //show us the slider value 
-    		var amt = "-webkit-filter:blur("+ui.value+"px)"
-    		$("#blur img").attr("style", amt);
-    	}
-    });
-  });
+<head>
+  <title>User Radar</title>
+  <script src="js/jquery-2.1.0.min.js"></script>
+  <script src='js/zig.min.js'></script>
+  <script>
+    $(function () {
+        // get thoughts via json file
+        $.ajax({
+          url: 'data.json',
+          dataType: 'json',
+          type: 'GET',
+          success: function (json) {
+            for (var i = 0; i < json.length; i++) {
+              console.log(json[i].thought);
+            };
+            //var wrapper = "<li class='single-feed'>";
+            //$(".feed-container").append($(wrapper).append(thought));
+          },
+          error: function () {
+            alert("I am sorry, But I can't fetch that feed");
+          }
+        });
+        // kinect
+        function loaded() {
+          var u = 0;
+          var radardiv = document.getElementById('radar');
+          var radar = {
+            onuserfound: function (user) {
+              var userdiv = document.createElement('div');
+              userdiv.className = 'user';
+              user.radarelement = userdiv; // add the radarelement property to the user object
+              radardiv.appendChild(user.radarelement);
+              u++; //increment each time new user is found
+              $("#radar div").attr("id",function() {
+                return "u" + u;
+              });
+              // lets display how many users we have
+              $("#total span").append(u);
+            },
+            onuserlost: function (user) {
+              radardiv.removeChild(user.radarelement);
+            },
+            ondataupdate: function (zigdata) {
+              for (var userid in zigdata.users) {
+                var user = zigdata.users[userid];
+                var pos = user.position;
+                var el = user.radarelement;
+                var parentElement = el.parentNode;
+                var zrange = 4000;
+                var xrange = 4000;
+                var pixelwidth = parentElement.offsetWidth;
+                var pixelheight = parentElement.offsetHeight;
+                var heightscale = pixelheight / zrange;
+                var widthscale = pixelwidth / xrange;
+                el.style.left = (((pos[0] / xrange) + 0.5) * pixelwidth - (el.offsetWidth / 2)) + "px";
+                el.style.top = ((pos[2] / zrange) * pixelheight - (el.offsetHeight / 2)) + "px";
+              }
+            }
+          };
+          zig.addListener(radar);
+        }
+        document.addEventListener('DOMContentLoaded', loaded, false);
+        // end document.ready function
+      }
   </script>
+  <link rel="stylesheet" href="css/styles.css">
 
 </head>
+
 <body>
-	<article id="radar">
-		
-	</article>
-	<!-- <div id="slider"></div>
-	<div id="x">0</div>
-	<div id="blur">
-		<img src="img/blur.jpg" style="">
-	</div>
-  -->
+  <div id='radar'></div>
+  <div id="blur">
+    <img src="img/blur.jpg" style="">
+  </div>
+  <footer>
+    <p id="total"><span>0</span> total users</p>
+  </footer>
 </body>
+
 </html>
