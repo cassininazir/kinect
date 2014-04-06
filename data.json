@@ -1,10 +1,38 @@
 [
     {
-        "thought": "Hello",
+        "thought": "1. Hello",
         "timestamp" : "time"
     },
     {
-        "thought": "Hello Jay",
+        "thought": "2. Hello Jay",
+        "timestamp" : "time"
+    },
+    {
+        "thought": "3. Wazzzzup",
+        "timestamp" : "time"
+    },
+    {
+        "thought": "4. Hello",
+        "timestamp" : "time"
+    },
+    {
+        "thought": "5. Hello Jay",
+        "timestamp" : "time"
+    },
+    {
+        "thought": "6. Wazzzzup",
+        "timestamp" : "time"
+    },
+    {
+        "thought": "7. Hello",
+        "timestamp" : "time"
+    },
+    {
+        "thought": "8. Hello Jay",
+        "timestamp" : "time"
+    },
+    {
+        "thought": "9. Wazzzzup",
         "timestamp" : "time"
     }
 ]
