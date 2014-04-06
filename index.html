@@ -13,9 +13,9 @@
           var radardiv = document.getElementById('radar');
           var radar = {
             onuserfound: function (user) {
-              var userdiv = $("#radar").append("div").addClass("user");
-              //var userdiv = document.createElement('div');
-              //userdiv.className = 'user';
+              //var userdiv = $("#radar").append("div").addClass("user");
+              var userdiv = document.createElement('div');
+              userdiv.className = 'user';
               user.radarelement = userdiv; // add the radarelement property to the user object
               radardiv.appendChild(user.radarelement);
               u++; //increment each time new user is found
