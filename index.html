@@ -32,8 +32,8 @@
                 type: 'GET',
                 success: function(json) {
                   for (var i = 0; i < json.length; i++) {
-                    console.log(json[(u-1)].thoughttext);
-                    var thought = json[(u-1)].thoughttex
+                    console.log(json[(u-1)].thought.thoughttext);
+                    var thought = json[(u-1)].thought.thoughttext
                   };
                   var wrapper = "<li class='single-feed'>";
                   $("#blur").append($(wrapper).append(thought));
