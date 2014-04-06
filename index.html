@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>User Radar</title>
    <script src="js/jquery-2.1.0.min.js"></script>
-  <!--<script src="//code.jquery.com/jquery-1.7.2.min.js"></script> -->
   <script src='js/zig.min.js'></script>
   <script>
         // kinect
@@ -22,6 +20,7 @@
               //$("#radar div").attr("id",function() {
               //  return "u" + u;
               //});
+//              $(userdiv).append(u);
               // lets display how many users we have
               $("#total span").html(u);
               // get thoughts via json file
@@ -33,10 +32,10 @@
                 success: function(json) {
                   for (var i = 0; i < json.thought.length; i++) {
                     console.log(json.thought[(u-1)].thoughttext);
-                    var th = json.thought[(u-1)].thoughttext;
+                    var thought = json.thought[(u-1)].thoughttext
                   };
-                  var wrapper = "<li class='single-feed'>";
-                  $("#blur").append($(wrapper).append(th));
+                  var wrapper = '<li id=t"'+u+'">';
+                  $("#blur").append($(wrapper).append(thought));
                 },
                 error: function () {
                   alert("I am sorry, But I can't fetch that feed");
@@ -60,6 +59,16 @@
                 var widthscale = pixelwidth / xrange;
                 el.style.left = (((pos[0] / xrange) + 0.5) * pixelwidth - (el.offsetWidth / 2)) + "px";
                 el.style.top = ((pos[2] / zrange) * pixelheight - (el.offsetHeight / 2)) + "px";
+                // create some blur
+                var str = el.style.top; 
+                str = str.substring(0, str.length - 2);
+                if (str>0) {
+                  var blurfactor = Math.abs((str/(10))-19);
+                  console.log(zigdata.users);
+                  var amt = "-webkit-filter:blur("+blurfactor+"px)"
+                  $("#blur li").attr("style", amt);
+                }
+
               }
             }
           };
@@ -77,11 +86,12 @@
 
 <body>
   <div id='radar'></div>
+  <p id="total"><span>0</span> total users</p>
   <div id="blur">
     <!--<img src="img/blur.jpg" style="">-->
   </div>
   <footer>
-    <p id="total"><span>0</span> total users</p>
+
   </footer>
 </body>
 
