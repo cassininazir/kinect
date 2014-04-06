@@ -1,8 +1,24 @@
-body { width: 960px;}
-#xslider, #yslider { 
-	width: 500px;
+/* */
+@font-face {
+	font-family: "Mercury";
+	src: url(../fonts/mercury-g4-roman.otf);
+	font-weight: normal;
+}
+html {
+}
+body {
+	width: 960px;
+	font-family: "Mercury", Georgia, serif;
+	font-size: 255%;
 }
 
+* {
+	font-size: 1.4rem;
+}
+
+#xslider, #yslider {
+	width: 500px;
+}
 #radar {
     width: 400px;
     height: 400px;
@@ -20,4 +36,8 @@ div.user {
 	height: 10px;
 	border-radius: 10px;
 	background: #3B8686;
+}
+
+a[href="http://zigfu.com/watermark"] {
+	display: none !important;
 }
