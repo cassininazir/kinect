@@ -11,31 +11,29 @@
           var radardiv = document.getElementById('radar');
           var radar = {
             onuserfound: function (user) {
-              //var userdiv = $("#radar").append("div").addClass("user");
               var userdiv = document.createElement('div');
               userdiv.className = 'user';
               user.radarelement = userdiv; // add the radarelement property to the user object
               radardiv.appendChild(user.radarelement);
               u++; //increment each time new user is found
-              //$("#radar div").attr("id",function() {
-              //  return "u" + u;
-              //});
-//              $(userdiv).append(u);
-              // lets display how many users we have
               $("#total span").html(u);
               // get thoughts via json file
               $.ajax({
                 url: 'data.json',
-                //url: 'http://selfvsother.com/json.php',
                 dataType: 'json',
                 type: 'GET',
                 success: function(json) {
+                  var totalthoughts = json.thought.length;
                   for (var i = 0; i < json.thought.length; i++) {
-                    console.log(json.thought[(u-1)].thoughttext);
-                    var thought = json.thought[(u-1)].thoughttext
+                    console.log(totalthoughts);
+                    var thought = json.thought[(totalthoughts-1)].thoughttext;
+                    //totalthoughts = totalthoughts - 1;
                   };
-                  var wrapper = '<li id=t"'+u+'">';
+                    var wrapper = '<li id="uuid'+user.id+'">';
                   $("#blur").append($(wrapper).append(thought));
+                  //for (var userid in zigdata.users) {
+                    //console.log(user.id);
+                  //}
                 },
                 error: function () {
                   alert("I am sorry, But I can't fetch that feed");
@@ -52,7 +50,7 @@
                 var el = user.radarelement;
                 var parentElement = el.parentNode;
                 var zrange = 4000;
-                var xrange = 4000;
+                var xrange = 8000;
                 var pixelwidth = parentElement.offsetWidth;
                 var pixelheight = parentElement.offsetHeight;
                 var heightscale = pixelheight / zrange;
@@ -62,11 +60,12 @@
                 // create some blur
                 var str = el.style.top; 
                 str = str.substring(0, str.length - 2);
+               //s console.log('Head position: ' + user.skeleton[zig.Joint.Head].position);
                 if (str>0) {
                   var blurfactor = Math.abs((str/(10))-19);
-                  console.log(zigdata.users);
+                 // console.log(zigdata.users);
                   var amt = "-webkit-filter:blur("+blurfactor+"px)"
-                  $("#blur li").attr("style", amt);
+                  $("#uuid"+user.id).attr("style", amt);
                 }
 
               }
@@ -75,8 +74,6 @@
           zig.addListener(radar);
         }
         document.addEventListener('DOMContentLoaded', loaded, false);
-
-
         // end document.ready function
   //    });
   </script>

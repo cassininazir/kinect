@@ -4,7 +4,9 @@
 	src: url(../fonts/mercury-g4-roman.otf);
 	font-weight: normal;
 }
-html {
+html { 
+	background: #283D58;
+	color: #fff;
 }
 body {
 	width: 960px;
@@ -39,12 +41,11 @@ p#total {
 	left: 25px;
 }
 #blur {
-	width: 400px;
-	float: right;
+	width: 95%;
 }
 #blur li {
 	list-style: none;
-	font-size: 1.4em;
+	font-size: 2.4em;
 }
 div.user {
 	position: relative;
@@ -56,5 +57,7 @@ div.user {
 }
 
 a[href="http://zigfu.com/watermark"] {
-	display: none !important;
+	position:absolute;
+	left: 4000px;
+	bottom: 50px;
 }
