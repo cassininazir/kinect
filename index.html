@@ -3,11 +3,7 @@
 
 <head>
   <title>User Radar</title>
-<<<<<<< HEAD
    <script src="js/jquery-2.1.0.min.js"></script>
-=======
-   <script src="js/jquery-2.1.0.min.js"></script> 
->>>>>>> FETCH_HEAD
   <!--<script src="//code.jquery.com/jquery-1.7.2.min.js"></script> -->
   <script src='js/zig.min.js'></script>
   <script>
@@ -30,23 +26,14 @@
               $("#total span").html(u);
               // get thoughts via json file
               $.ajax({
-<<<<<<< HEAD
                 //url: 'data.json',
                 url: 'http://selfvsother.com/json.php',
-=======
-                url: 'data.json',
->>>>>>> FETCH_HEAD
                 dataType: 'json',
                 type: 'GET',
                 success: function(json) {
                   for (var i = 0; i < json.length; i++) {
-<<<<<<< HEAD
                     console.log(json[(u-1)].thoughttext);
-                    var thought = json[(u-1)].thoughttext
-=======
-                    console.log(json[(u-1)].thought);
-                    var thought = json[(u-1)].thought
->>>>>>> FETCH_HEAD
+                    var thought = json[(u-1)].thoughttex
                   };
                   var wrapper = "<li class='single-feed'>";
                   $("#blur").append($(wrapper).append(thought));
