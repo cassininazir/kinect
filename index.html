@@ -3,29 +3,10 @@
 
 <head>
   <title>User Radar</title>
-  <!-- <script src="js/jquery-2.1.0.min.js"></script> -->
-  <script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
+   <script src="js/jquery-2.1.0.min.js"></script> 
+  <!--<script src="//code.jquery.com/jquery-1.7.2.min.js"></script> -->
   <script src='js/zig.min.js'></script>
   <script>
-      $(function () {
-        // get thoughts via json file
-        $.ajax({
-          url: 'data.json',
-          dataType: 'json',
-          type: 'GET',
-          success: function(json) {
-            for (var i = 0; i < json.length; i++) {
-              console.log(json[i].thought);
-              var thought = json[i].thought
-            };
-            var wrapper = "<li class='single-feed'>";
-            $("#blur").append($(wrapper).append(thought));
-          },
-          error: function () {
-            alert("I am sorry, But I can't fetch that feed");
-          }
-        });
-      });
         // kinect
         function loaded() {
           var u = 0;
@@ -42,6 +23,23 @@
               });
               // lets display how many users we have
               $("#total span").html(u);
+              // get thoughts via json file
+              $.ajax({
+                url: 'data.json',
+                dataType: 'json',
+                type: 'GET',
+                success: function(json) {
+                  for (var i = 0; i < json.length; i++) {
+                    console.log(json[(u-1)].thought);
+                    var thought = json[(u-1)].thought
+                  };
+                  var wrapper = "<li class='single-feed'>";
+                  $("#blur").append($(wrapper).append(thought));
+                },
+                error: function () {
+                  alert("I am sorry, But I can't fetch that feed");
+                }
+              });
             },
             onuserlost: function (user) {
               radardiv.removeChild(user.radarelement);
@@ -66,6 +64,8 @@
           zig.addListener(radar);
         }
         document.addEventListener('DOMContentLoaded', loaded, false);
+
+
         // end document.ready function
   //    });
   </script>
