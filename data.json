@@ -1,7 +1,7 @@
 {
     "thought": [{
         "id": "52",
-        "thoughttext": "json",
+        "thoughttext": "Hello, Lilia!",
         "thoughtdate": "2014-03-30",
         "elapsed": "382",
         "browser": "Chrome",
@@ -14,7 +14,7 @@
         "lng": "-96.75186579999999"
     }, {
         "id": "51",
-        "thoughttext": "We're making the database better",
+        "thoughttext": "Dallas Contemporary",
         "thoughtdate": "2014-03-26",
         "elapsed": "817",
         "browser": "Chrome",
