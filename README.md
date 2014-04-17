@@ -1,8 +1,6 @@
 self vs other
-an art installation using computer vision and human thought
 ======
-
-
+*an art installation using computer vision and human thought*
 
 The Self vs Other installation incorporates submitted anonymous thoughts that are attached to participants through projection mapping. 
 
