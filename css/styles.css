@@ -5,13 +5,15 @@
 	font-weight: normal;
 }
 html { 
-	background: #283D58;
+/*	background: #283D58;
 	color: #fff;
+	*/
 }
 body {
 	width: 960px;
 	font-family: "Mercury", Georgia, serif;
 	font-size: 255%;
+	padding-left: 50px;
 }
 
 * {
