@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <title></title>
+</html>
+<body>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://localhost:3010/socket.io/socket.io.js"></script>
+    <script>
+    $(document).ready(function(){
+        // Connect to our node/websockets server
+        var socket = io.connect('http://localhost:3010');
+        var projected = null;
+        // New note emitted, add it to our list of current notes
+        socket.on('thoughts', function(data){
+            //$('#notes').append('<li>' + data.note + '</li>');
+            console.log('New pull');
+            projected = data;
+
+            function 
+
+        });
+
+        // New socket connected, display new count on page
+        socket.on('users connected', function(data){
+            $('#usersConnected').html('Users connected: ' + data)
+        });
+    });
+    </script>
+    <ul id="notes"></ul>
+    <div id="usersConnected"></div>
+    <div id="newNote">Create a new note</div>
+</body>
+</html>
