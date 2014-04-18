@@ -1,35 +1,39 @@
-/* */
+/* 
+
+ 0. Universal styles
+ 1. Radar 
+ 2. Thoughts
+ 3. Zigfu
+*/
+
+/* 0. Universal */
+
 @font-face {
 	font-family: "Mercury";
 	src: url(../fonts/mercury-g4-roman.otf);
 	font-weight: normal;
 }
 html { 
-/*	background: #283D58;
+	background: #283D58;
 	color: #fff;
-	*/
 }
 body {
 	width: 960px;
 	font-family: "Mercury", Georgia, serif;
 	font-size: 255%;
-	padding-left: 50px;
 }
 
 * {
 	font-size: 1.4rem;
 }
-
-#xslider, #yslider {
-	width: 500px;
-}
+/* 1. Radar */
 #radar {
     width: 200px;
     height: 200px;
     border: 1px solid rgba(168,219,168, 1);
     overflow: hidden;
-		position: absolute;
-		bottom: 35px;
+	position: absolute;
+	bottom: 35px;
     left: 25px;
 }
 p#total, p#total * {
@@ -42,6 +46,7 @@ p#total {
 	bottom: 5px;
 	left: 25px;
 }
+/* 2. Thoughts */
 #blur {
 	width: 95%;
 }
@@ -58,6 +63,34 @@ div.user {
 	background: #3B8686;
 }
 
+
+iframe {
+  width: 900px;
+  height: 350px;
+  overflow: hidden;
+  border: none !important;
+  z-index: 9;
+}
+li {
+  position: absolute;
+}
+
+li .th {
+  position: relative;
+  top: 155px;
+  text-align: center;
+  z-index: 999;
+}
+@-webkit-keyframes fadeout {
+  from { opacity: 1}
+  to   { opacity: 0; }
+}
+.fadeitout {
+  -webkit-animation: fadeout 20s;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-transition-timing-function: cubic-bezier(0, 1.185, 0.115, 1.640);
+}
+/* 3. Zigfu */
 a[href="http://zigfu.com/watermark"] {
 	position:absolute;
 	left: 4000px;
