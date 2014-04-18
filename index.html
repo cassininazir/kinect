@@ -1,95 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>User Radar</title>
-   <script src="js/jquery-2.1.0.min.js"></script>
+  <title>Self vs. Other Experiment</title>
+  <script src="js/jquery-2.1.0.min.js"></script>
   <script src='js/zig.min.js'></script>
-  <script>
-        // kinect
-        function loaded() {
-          var u = 0;
-          var radardiv = document.getElementById('radar');
-          var radar = {
-            onuserfound: function (user) {
-              var userdiv = document.createElement('div');
-              userdiv.className = 'user';
-              user.radarelement = userdiv; // add the radarelement property to the user object
-              radardiv.appendChild(user.radarelement);
-              u++; //increment each time new user is found
-              $("#total span").html(u);
-              // get thoughts via json file
-              $.ajax({
-                url: 'data.json',
-                dataType: 'json',
-                type: 'GET',
-                success: function(json) {
-                  var totalthoughts = json.thought.length;
-                  for (var i = 0; i < json.thought.length; i++) {
-                    console.log(totalthoughts);
-                    var thought = json.thought[(u-1)].thoughttext;
-                    //totalthoughts = totalthoughts - 1;
-                  };
-                    var wrapper = '<li id="uuid'+user.id+'">';
-                  $("#blur").append($(wrapper).append(thought));
-                  //for (var userid in zigdata.users) {
-                    //console.log(user.id);
-                  //}
-                },
-                error: function () {
-                  alert("I am sorry, But I can't fetch that feed");
-                }
-              });
-            },
-            onuserlost: function (user) {
-              radardiv.removeChild(user.radarelement);
-            },
-            ondataupdate: function (zigdata) {
-              for (var userid in zigdata.users) {
-                var user = zigdata.users[userid];
-                var pos = user.position;
-                var el = user.radarelement;
-                var parentElement = el.parentNode;
-                var zrange = 4000;
-                var xrange = 8000;
-                var pixelwidth = parentElement.offsetWidth;
-                var pixelheight = parentElement.offsetHeight;
-                var heightscale = pixelheight / zrange;
-                var widthscale = pixelwidth / xrange;
-                el.style.left = (((pos[0] / xrange) + 0.5) * pixelwidth - (el.offsetWidth / 2)) + "px";
-                el.style.top = ((pos[2] / zrange) * pixelheight - (el.offsetHeight / 2)) + "px";
-                // create some blur
-                var str = el.style.top; 
-                str = str.substring(0, str.length - 2);
-               //s console.log('Head position: ' + user.skeleton[zig.Joint.Head].position);
-                if (str>0) {
-                  var blurfactor = Math.abs((str/(10))-19);
-                 // console.log(zigdata.users);
-                  var amt = "-webkit-filter:blur("+blurfactor+"px)"
-                  $("#uuid"+user.id).attr("style", amt);
-                }
-
-              }
-            }
-          };
-          zig.addListener(radar);
-        }
-        document.addEventListener('DOMContentLoaded', loaded, false);
-        // end document.ready function
-  //    });
-  </script>
+  <script src='js/fiat.js'></script>
+  <script src='js/camera.js'></script>
   <link rel="stylesheet" href="css/styles.css">
-
 </head>
 
 <body>
-  <div id='radar'></div>
+
+  <div id="radar"></div>
   <p id="total"><span>0</span> total users</p>
-  <div id="blur">
-    <!--<img src="img/blur.jpg" style="">-->
+  <div id="blur"></div>
+  <!-- canvas for Kinect vision -->
+  <div id="container">
+    <div id="canvasCont">
+      <div id="depthCan">
+        <canvas style="width:320px; height:240px;" id="depth" width="160" height="120"></canvas>
+      </div>
+      <div id="imageCan">
+        <canvas style="width:320px; height:240px;" id="image" width="160" height="120"></canvas>
+      </div>
+      <div id="labelCan">
+        <canvas style="width:320px; height:240px;" id="labelMap" width="160" height="120"></canvas>
+      </div>
+    </div>
   </div>
-  <footer>
+  <!-- enable vision from Kinect -->
+  <div id="pluginContainer">
+    <object id="ZigPlugin" type="application/x-zig" width="0" height="0">
+      <param name="onload" value="ZigPluginLoaded" />
+    </object>
+  </div>
 
-  </footer>
 </body>
-
 </html>
