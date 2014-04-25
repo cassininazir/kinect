@@ -26,8 +26,6 @@ function loaded() {
       // get thoughts via json file
       var newfound = null;
       var thought = null;
-   //   var newfoundtotal = 0;
-      
 
       function getthought() {
          for (i=0; i < tobeprojected.length; i++) {
@@ -77,8 +75,11 @@ function loaded() {
 
 
     onuserlost: function (user) {
-      $("#uuid"+user.id+" iframe").addClass("fadeitout");
-      $("#uuid"+user.id).delay(800).addClass("fadeitout");
+      $("#uuid"+user.id+" iframe").addClass("fadeitout").delay(4100).queue(function() {
+        $(this).remove();
+       // $(this).dequeue();
+      });
+      $("#uuid"+user.id +" .th").delay(800).addClass("fade");
       radardiv.removeChild(user.radarelement);
       timer = 0;
     },
@@ -87,6 +88,7 @@ function loaded() {
       for (var userid in zigdata.users) {
         var user = zigdata.users[userid];
         var pos = user.position;
+
         var el = user.radarelement;
         var parentElement = el.parentNode;
         var zrange = 8000;
@@ -100,23 +102,27 @@ function loaded() {
 
         var ypos = user.skeleton[zig.Joint.Head].position[1];
         var xpos = user.skeleton[zig.Joint.Head].position[0];
-        // create some blur
-       // (ypos < 0) ? ypos = ypos * -1 : ypos = ypos * 2;
-       // (xpos < 0) ? xpos = xpos * -1 : xpos = xpos * 2;
+        var zpos = user.skeleton[zig.Joint.Head].position[2];
+
+        var yfactor = 1400;
+        var xfactor = null;
+        var zfactor = 4000;
         
-        //console.log(xpos);
-        var str = parseInt(el.style.top);
-        //str = str.substring(0, str.length - 2);
-        if (str>0) {
-          var blurfactor = Math.abs((str/(1))-2);
-          //console.log(blurfactor*.1);
-          var amt = "-webkit-filter:blur("+blurfactor*.1+"px)";
-          var ycoord = "top:"+ypos+"px; ";
-          var xcoord = "left:"+xpos/10+"px; ";
-          var coords = "position: absolute; " + ycoord + xcoord;
-          $("#uuid"+user.id+" iframe").attr("style", amt)
-          $("#uuid"+user.id).attr("style", coords);
+        // x factor -- reset coordinates to absolute positioning
+        if (xpos < 0) {
+           xfactor = (Math.abs(xpos)) + 1850
+        } else {
+          xfactor = Math.abs(xpos-1850)
         }
+
+        yfactor = ((zpos-4000)/2000)*-100;
+        var blurfactor = (yfactor * 1);
+        var amt = "-webkit-filter:blur("+blurfactor*.1+"px)";
+        var ycoord = "top:" +(yfactor-20)+"%; ";
+        var xcoord = "left:" + ((xfactor / 3400) * 100) +"%; ";
+        var coords = "position: absolute; " + ycoord + xcoord + "-webkit-filter:blur("+blurfactor*.05+"px)";
+        $("#uuid"+user.id+" iframe").attr("style", amt)
+        $("#uuid"+user.id).attr("style", coords);
       }
     }
   };
@@ -136,6 +142,6 @@ function updatenotification() {
   $('#alert').html('<span class="newfoundtotal">'+total+'</span>');  
   setTimeout(function() {
     updatenotification();
-  }, 1000);
+  }, 10000);
 }
 document.addEventListener('DOMContentLoaded', loaded, false);
