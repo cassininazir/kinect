@@ -1,8 +1,21 @@
 // kinect
+
+var _ = function(){};
+_.removeFromArray = function(array, item) {
+  var index = array.indexOf(item);
+
+  if (index > -1) {
+    array.splice(index, 1);
+  }
+};
+var usedids = [];
+
+var lastNewTotal = 0;
+
 function loaded() {
   var u = 0;
   var radardiv = $('#radar')[0]; 
-  var timer = 0;
+
   var radar = {
 
     onuserfound: function (user) {
@@ -11,31 +24,70 @@ function loaded() {
       user.radarelement = userdiv; // add the radarelement property to the user object
       radardiv.appendChild(user.radarelement);
       u++; //increment each time new user is found
-      $("#total span").html(u); //tell us how many users
+      var visits = null;
+      if (u == 1) {  
+         visits = " self";
+      } else {
+        visits = " selves";
+      }
+      $("#total span").html(u).append(visits); //tell us how many users
       // get thoughts via json file
-     $.ajax({
-        url: 'data.json',
-        dataType: 'json',
-        type: 'GET',
-        success: function(json) {
-          var totalthoughts = json.thought.length;
-          for (var i = 0; i < json.thought.length; i++) {
-            var thought = json.thought[u].thoughttext;
-          };
-            var len = thought.length;
-            var wrapper = '<li id="uuid'+user.id+'"><div class="th">'+thought+'</div><iframe src="bubbles/small.html" allowTransparency="true" scrolling="no"></iframe></li>';
-          $("#blur").append((wrapper));
-        },
-        error: function () {
-          alert("I am sorry, But I can't fetch that feed");
+      var newfound = null;
+      var thought = null;
+
+      function getthought() {
+         for (i=0; i < tobeprojected.length; i++) {
+          var item = tobeprojected[i].id;
+          if (usedids.indexOf(item) == -1) {
+            newfound = tobeprojected[i];
+            console.log('new' +newfound);
+          break;
+          }
         }
-      });
+
+        if (newfound) {
+          thought = newfound.thoughttext;
+          socket.emit('huey', newfound.id);
+          usedids.push(newfound.id);
+//          $('#alert').html('<span class="newfoundtotal">'+newfoundtotal+'</span>');
+          newfound = null;
+        } 
+        else {
+          if (tobeprojected.length > 0 ){
+            var randomthought = Math.round(Math.random() * (tobeprojected.length-1));
+            thought = tobeprojected[randomthought].thoughttext;
+          }
+        }
+      }
+
+      if (currentprojected[1].thought == null ){
+        getthought(); 
+      }
+      else {
+        var toberemoved = [];
+        for (i=0; i < tobeprojected.length; i++) {
+          var item = tobeprojected[i].id;
+
+          if (currentprojected[1].thought == item){
+            toberemoved.push(tobeprojected[i]);
+          }
+        }
+        for (i=0; i < toberemoved.length; i++) {
+          _.removeFromArray(tobeprojected, toberemoved[i]);
+        }
+        getthought();
+      }
+      var wrapper = '<li id="uuid'+user.id+'"><div class="th" style="z-index:'+(100000+u)+'"><p>'+thought+'</p></div><iframe src="bubbles/medium.html" allowTransparency="true" scrolling="no" style="z-index:'+(99999+u)+'"></iframe></li>';
+     $("#blur").append((wrapper));
     },
 
 
     onuserlost: function (user) {
-      $("#uuid"+user.id+" iframe").addClass("fadeitout");
-      $("#uuid"+user.id).delay(800).addClass("fadeitout");
+      $("#uuid"+user.id+" iframe").addClass("fadeitout").delay(4100).queue(function() {
+        $(this).remove();
+       // $(this).dequeue();
+      });
+      $("#uuid"+user.id +" .th").delay(800).addClass("fade");
       radardiv.removeChild(user.radarelement);
       timer = 0;
     },
@@ -44,6 +96,7 @@ function loaded() {
       for (var userid in zigdata.users) {
         var user = zigdata.users[userid];
         var pos = user.position;
+
         var el = user.radarelement;
         var parentElement = el.parentNode;
         var zrange = 8000;
@@ -57,26 +110,60 @@ function loaded() {
 
         var ypos = user.skeleton[zig.Joint.Head].position[1];
         var xpos = user.skeleton[zig.Joint.Head].position[0];
-        // create some blur
-       // (ypos < 0) ? ypos = ypos * -1 : ypos = ypos * 2;
-       // (xpos < 0) ? xpos = xpos * -1 : xpos = xpos * 2;
+        var zpos = user.skeleton[zig.Joint.Head].position[2];
+
+        console.log('xpos: '+xpos);
+        console.log('user pos: '+ user.position[2]);
+
+        var yfactor = 1400;
+        var xfactor = null;
+        var zfactor = 4000;
         
-        //console.log(xpos);
-        var str = parseInt(el.style.top);
-        //str = str.substring(0, str.length - 2);
-        if (str>0) {
-          var blurfactor = Math.abs((str/(1))-2);
-          //console.log(blurfactor*.1);
-          var amt = "-webkit-filter:blur("+blurfactor*.1+"px)";
-          var ycoord = "top:"+ypos+"px; ";
-          var xcoord = "left:"+xpos/10+"px; ";
-          var coords = "position: absolute; " + ycoord + xcoord;
-          $("#uuid"+user.id+" iframe").attr("style", amt)
-          $("#uuid"+user.id).attr("style", coords);
+        // x factor -- reset coordinates to absolute positioning
+        if (xpos < 0) {
+           xfactor = (Math.abs(xpos)) + 2500
+        } else {
+          xfactor = Math.abs(xpos-2500)
         }
+        //console.log(xpos);
+        yfactor = ((zpos-4000)/2000)*-100;
+        var blurfactor = (yfactor * 1);
+        var amt = "-webkit-filter:blur("+blurfactor*.1+"px)";
+        var ycoord = "top:" +(yfactor-20)+"%; ";
+        var xcoord = "left:" + ((xfactor / 3400) * 100) +"%; ";
+        var coords = "position: absolute; " + ycoord + xcoord + "-webkit-filter:blur("+blurfactor*.05+"px)";
+        $("#uuid"+user.id+" iframe").attr("style", amt)
+        $("#uuid"+user.id).attr("style", coords);
       }
     }
   };
+  zig.verbose = true;
   zig.addListener(radar);
+  updatenotification();
+}
+
+function updatenotification() {
+  var total = 0;
+  for (i=0; i < tobeprojected.length; i++) {
+    var item = tobeprojected[i].id;
+    if (usedids.indexOf(item) == -1) {
+      total++;
+    }
+  }  
+  $('#alert').html('<span class="newfoundtotal">'+total+' <small style="font-size:.5rem;">thoughts in queue</small></span>');
+
+  if(lastNewTotal < total) {
+    //Do ping
+    $('#alert').addClass('ping');
+    lastNewTotal = total;
+
+    setTimeout(function() {
+      $('#alert').removeClass('ping');
+    }, 4000);
+  }
+
+  setTimeout(function() {
+    updatenotification();
+  }, 1000);
 }
 document.addEventListener('DOMContentLoaded', loaded, false);
