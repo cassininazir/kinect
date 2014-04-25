@@ -1,0 +1,165 @@
+/* 
+
+ 0. Universal styles
+ 1. Radar 
+ 2. Thoughts
+ 3. Zigfu
+ 4. Kinect Vision
+*/
+
+/* 0. Universal */
+
+@font-face {
+	font-family: "Mercury";
+	src: url(../fonts/mercury-g4-roman.otf);
+	font-weight: normal;
+}
+html { 
+	background: #000;
+	color: #fff;
+	overflow: hidden;
+}
+body {
+	width: 960px;
+	font-family: "Mercury", Georgia, serif;
+	font-size: 255%;
+
+}
+body.black {
+	
+}
+
+* {
+	font-size: 1.4rem;
+}
+/* 1. Radar */
+#radar {
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(168,219,168, 1);
+    overflow: hidden;
+	position: absolute;
+	bottom: 35px;
+    left: 25px;
+}
+p#total, p#total * {
+	font-size: .75rem;
+}
+p#total {
+	position: absolute;
+	width: 200px;
+	text-align: right;
+	bottom: -3px;
+	left: 25px;
+}
+.newfoundtotal {
+	display: block;
+	position: absolute;
+	bottom: 13px;
+	font-size: .75rem;
+	left: 25px;
+}
+/* 2. Thoughts */
+#blur {
+	width: 95%;
+}
+#blur li {
+	list-style: none;
+	font-size: 2.4em;
+}
+div.user {
+	position: relative;
+	width: 15px;
+	height: 15px;
+	border-radius: 15px;
+	text-align: center;
+	background: #3B8686;
+}
+
+
+iframe {
+  width: 900px;
+  height: 750px;
+  margin-top: -150px;
+  overflow: hidden;
+  border: none !important;
+  background: transparent;
+}
+li {
+  position: absolute;
+ /* margin: -200px 0 0 -200px; */
+}
+
+li .th {
+  position: absolute;
+	top: 45px;
+	left: 150px;
+  text-align: center;
+	z-index: 999;
+	width: 375px;
+	height: 250px;	
+
+}
+li .th p {
+	width: 375px;
+	height: 250px;	
+	display: table-cell;
+    vertical-align: middle;
+	padding: 0;
+	margin: 0;	
+}
+@-webkit-keyframes fadeout {
+  from { opacity: 1; -webkit-filter:saturation(1);}
+  to   { opacity: 0;  -webkit-filter:saturation(0);}
+}
+.fadeitout {
+  -webkit-animation: fadeout 4s;
+  -webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes fadelight {
+  from { opacity: 1; -webkit-filter:saturation(1);}
+  to   { opacity: 0.4;  -webkit-filter:saturation(0);}
+}
+.fade {
+  -webkit-animation: fadelight 4s;
+  -webkit-animation-fill-mode: forwards;
+}
+#alert {
+	border: 1px solid red;
+	width: 20px;
+	height: 20px;
+	margin:40px;
+	border-radius: 100px;
+}
+@-webkit-keyframes pingit {
+  0% {  opacity: .5; -webkit-filter:saturation(1);}
+  50%   {width: 60px; height: 60px; margin:20px; opacity:1;  -webkit-filter:saturation(0);}
+  100% { opacity: 0.5;}
+}
+.ping {
+  -webkit-animation: pingit 1s;
+  -webkit-animation-fill-mode: forwards;
+}
+/* 3. Zigfu */
+a[href="http://zigfu.com/watermark"],a[href="http://zigfu.com/watermark"] + div  {
+	opacity: 0 !important;
+}
+
+/* 4. Kinect Vision */
+#canvasCont div {
+ -webkit-transform:scaleX(-1);
+}
+#depthCan, #imageCan, #labelCan {
+	position: absolute;
+	bottom: 50px;
+	z-index: -99999;
+}
+#depthCan {
+	left: 250px;
+}
+#imageCan {
+	left: 460px;
+}
+#labelCan {
+	left: 670px;
+}
