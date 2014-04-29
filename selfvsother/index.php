@@ -29,7 +29,7 @@ if (isset($_GET['addthought']))
 
 try
 {
-  $pdo = new PDO('mysql:host=68.178.143.96;dbname=thoughtdb', 'thoughtdb', 'Emac!2014');
+  $pdo = new PDO('mysql:host=hostname;dbname=database', 'user', 'password');
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   $pdo->exec('SET NAMES "utf8"');
 }
